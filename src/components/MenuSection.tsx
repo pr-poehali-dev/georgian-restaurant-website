@@ -1,146 +1,163 @@
 
-import { Card, CardContent } from "@/components/ui/card";
+import { useState } from "react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Card, CardContent } from "@/components/ui/card";
 
 type MenuItem = {
   id: number;
   name: string;
   description: string;
-  price: string;
-  image?: string;
+  price: number;
   popular?: boolean;
+  georgianName?: string;
 };
 
 type MenuCategory = {
   id: string;
-  label: string;
+  name: string;
   items: MenuItem[];
 };
 
-const menuData: MenuCategory[] = [
+const menuCategories: MenuCategory[] = [
   {
-    id: "холодные-закуски",
-    label: "Холодные закуски",
+    id: "khachapuri",
+    name: "Хачапури",
     items: [
       {
         id: 1,
-        name: "Пхали из шпината",
-        description: "Традиционная грузинская закуска из шпината с грецкими орехами и специями",
-        price: "380 ₽",
-        popular: true
+        name: "Хачапури по-аджарски",
+        georgianName: "აჭარული ხაჭაპური",
+        description: "Лодочка из теста с сыром сулугуни, яйцом и маслом",
+        price: 450,
+        popular: true,
       },
       {
         id: 2,
-        name: "Баклажаны с орехами",
-        description: "Обжаренные баклажаны с ореховой пастой, гранатом и зеленью",
-        price: "420 ₽"
+        name: "Хачапури по-имеретински",
+        georgianName: "იმერული ხაჭაპური",
+        description: "Круглый плоский пирог с начинкой из сыра сулугуни",
+        price: 380,
       },
       {
         id: 3,
-        name: "Ассорти сыров",
-        description: "Сулугуни, имеретинский, копченый сулугуни, надуги с мятой",
-        price: "620 ₽"
-      }
-    ]
+        name: "Хачапури по-мегрельски",
+        georgianName: "მეგრული ხაჭაპური",
+        description: "Круглый пирог с сыром внутри и сверху",
+        price: 400,
+      },
+    ],
   },
   {
-    id: "горячие-закуски",
-    label: "Горячие закуски",
+    id: "khinkali",
+    name: "Хинкали",
     items: [
       {
         id: 4,
-        name: "Хачапури по-аджарски",
-        description: "Открытый пирог в форме лодочки с сыром сулугуни и яйцом",
-        price: "490 ₽",
-        popular: true
+        name: "Хинкали с бараниной",
+        georgianName: "ხინკალი ცხვრის ხორცით",
+        description: "Сочные хинкали с мясом баранины и зеленью",
+        price: 95,
+        popular: true,
       },
       {
         id: 5,
-        name: "Лобио в горшочке",
-        description: "Тушеная красная фасоль с грузинскими специями, подается с мчади",
-        price: "420 ₽"
+        name: "Хинкали с говядиной и свининой",
+        georgianName: "ხინკალი საქონლის ხორცით",
+        description: "Классические хинкали с сочной мясной начинкой",
+        price: 85,
       },
       {
         id: 6,
-        name: "Хинкали с бараниной",
-        description: "Сочные грузинские пельмени с бараниной и зеленью (5 шт)",
-        price: "590 ₽"
-      }
-    ]
+        name: "Хинкали с грибами",
+        georgianName: "ხინკალი სოკოთი",
+        description: "Хинкали с начинкой из шампиньонов и зелени",
+        price: 80,
+      },
+    ],
   },
   {
-    id: "основные-блюда",
-    label: "Основные блюда",
+    id: "mtsvadi",
+    name: "Мясные блюда",
     items: [
       {
         id: 7,
-        name: "Чакапули из ягненка",
-        description: "Нежное мясо ягненка, тушеное в белом вине с тархуном и зеленью",
-        price: "790 ₽"
+        name: "Мцвади из свинины",
+        georgianName: "ღორის მწვადი",
+        description: "Шашлык из свинины на мангале с луком и гранатом",
+        price: 550,
+        popular: true,
       },
       {
         id: 8,
-        name: "Чахохбили из курицы",
-        description: "Тушеная курица с томатами, луком и ароматными специями",
-        price: "650 ₽"
+        name: "Чакапули",
+        georgianName: "ჩაქაფული",
+        description: "Тушеная баранина с тархуном, эстрагоном и алычой",
+        price: 620,
       },
       {
         id: 9,
-        name: "Оджахури со свининой",
-        description: "Жаркое из свинины с картофелем и ароматными специями",
-        price: "720 ₽",
-        popular: true
-      }
-    ]
-  }
+        name: "Оджахури",
+        georgianName: "ოჯახური",
+        description: "Жареное мясо с картофелем и специями",
+        price: 480,
+      },
+    ],
+  },
 ];
 
 const MenuSection = () => {
+  const [activeCategory, setActiveCategory] = useState("khachapuri");
+
   return (
     <section id="меню" className="py-20 bg-muted">
       <div className="container mx-auto px-4">
-        <h2 className="section-heading text-center mx-auto">Наше меню</h2>
-        <p className="text-center text-muted-foreground max-w-2xl mx-auto mb-12">
-          Насладитесь подлинными вкусами Грузии, приготовленными по традиционным рецептам нашим шеф-поваром
+        <h2 className="section-heading text-center mx-auto">
+          Наше меню
+          <span className="block text-sm mt-2 text-muted-foreground">ჩვენი მენიუ</span>
+        </h2>
+        <p className="text-center max-w-2xl mx-auto mb-12 text-muted-foreground">
+          Попробуйте настоящие грузинские блюда, приготовленные по традиционным рецептам 
+          из свежайших продуктов.
         </p>
 
-        <Tabs defaultValue="холодные-закуски" className="w-full max-w-4xl mx-auto">
+        <Tabs defaultValue="khachapuri" value={activeCategory} onValueChange={setActiveCategory} className="w-full max-w-4xl mx-auto">
           <TabsList className="grid grid-cols-3 mb-8">
-            {menuData.map((category) => (
-              <TabsTrigger key={category.id} value={category.id}>
-                {category.label}
+            {menuCategories.map((category) => (
+              <TabsTrigger 
+                key={category.id} 
+                value={category.id}
+                className="text-base py-3"
+              >
+                {category.name}
               </TabsTrigger>
             ))}
           </TabsList>
-          
-          {menuData.map((category) => (
-            <TabsContent key={category.id} value={category.id} className="mt-0">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+
+          {menuCategories.map((category) => (
+            <TabsContent key={category.id} value={category.id} className="mt-4">
+              <div className="grid gap-6 md:grid-cols-2">
                 {category.items.map((item) => (
-                  <Card key={item.id} className={`overflow-hidden hover:shadow-md transition-shadow ${item.popular ? 'border-georgia-gold border-2' : ''}`}>
-                    <CardContent className="p-0">
-                      <div className="flex flex-col md:flex-row">
-                        <div className="w-full md:w-1/3 bg-muted h-40 md:h-auto">
-                          <div 
-                            className="w-full h-full bg-cover bg-center"
-                            style={{ backgroundImage: `url(${item.image || '/placeholder.svg'})` }}
-                          />
-                        </div>
-                        <div className="w-full md:w-2/3 p-5">
-                          <div className="flex justify-between items-start mb-2">
-                            <h3 className="font-bold">{item.name}</h3>
-                            <span className="text-georgia-wine font-bold">{item.price}</span>
-                          </div>
-                          <p className="text-muted-foreground text-sm">{item.description}</p>
-                          {item.popular && (
-                            <div className="mt-3">
-                              <span className="text-xs inline-block bg-georgia-gold/20 text-georgia-wine px-2 py-1 rounded-full">
-                                Популярное блюдо
-                              </span>
-                            </div>
+                  <Card key={item.id} className={`overflow-hidden ${item.popular ? 'border-2 border-georgia-gold' : ''}`}>
+                    <CardContent className="p-6">
+                      <div className="flex justify-between items-start mb-2">
+                        <div>
+                          <h3 className="font-bold text-lg">{item.name}</h3>
+                          {item.georgianName && (
+                            <p className="text-sm text-muted-foreground font-nino">{item.georgianName}</p>
                           )}
                         </div>
+                        <div className="text-lg font-semibold text-georgia-wine">
+                          {item.price} ₽
+                        </div>
                       </div>
+                      <p className="text-muted-foreground">{item.description}</p>
+                      {item.popular && (
+                        <div className="mt-3">
+                          <span className="inline-block bg-georgia-gold/10 text-georgia-wine text-xs px-2 py-1 rounded">
+                            Популярное блюдо
+                          </span>
+                        </div>
+                      )}
                     </CardContent>
                   </Card>
                 ))}
