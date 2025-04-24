@@ -1,38 +1,61 @@
+
 import { Button } from "@/components/ui/button";
+import { ArrowRight } from "lucide-react";
 
 const Hero = () => {
   return (
-    <section className="min-h-screen relative flex items-center justify-center overflow-hidden georgian-pattern">
+    <section className="relative min-h-screen flex items-center overflow-hidden pt-20 georgian-pattern">
       <div 
-        className="absolute inset-0 bg-cover bg-center bg-no-repeat opacity-80" 
+        className="absolute inset-0 bg-cover bg-center bg-no-repeat z-0"
         style={{ 
-          backgroundImage: "url('https://images.unsplash.com/photo-1563379926898-05f4575a45d8?q=80&w=1470&auto=format&fit=crop')", 
-          filter: "brightness(0.6)"
+          backgroundImage: "url('/placeholder.svg')",
+          backgroundSize: "cover",
+          filter: "brightness(40%)"
         }}
       />
       
-      <div className="container relative z-10 mx-auto px-4 md:px-8 text-center py-20 lg:py-0">
-        <div className="max-w-3xl mx-auto">
-          <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold mb-6 text-white leading-tight animate-fade-in">
-            სუფრა <span className="block">Традиции грузинского гостеприимства</span>
+      <div className="absolute inset-0 bg-gradient-to-r from-black/60 to-transparent z-[1]" />
+      
+      <div className="container mx-auto px-4 relative z-10">
+        <div className="max-w-xl">
+          <h1 className="text-5xl md:text-7xl font-bold mb-6 text-georgia-cream">
+            <span className="block text-georgia-gold">სუფრა</span>
+            Грузинская кухня
           </h1>
           
-          <p className="text-xl md:text-2xl mb-8 text-gray-100 animate-fade-in">
-            Аутентичная грузинская кухня с богатыми традициями и неповторимыми вкусами
+          <p className="text-xl mb-8 text-white/90">
+            Аутентичные блюда и традиционное грузинское гостеприимство в самом центре города. Ощутите вкус настоящей Грузии!
           </p>
           
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-4 animate-fade-in">
-            <Button className="bg-georgia-wine hover:bg-georgia-earth text-white py-6 px-8 text-lg w-full sm:w-auto">
-              Меню ресторана
-            </Button>
-            <Button variant="outline" className="bg-transparent border-2 border-white text-white hover:bg-white/10 py-6 px-8 text-lg w-full sm:w-auto">
+          <div className="flex flex-wrap gap-4">
+            <Button 
+              size="lg" 
+              className="bg-georgia-wine hover:bg-georgia-wine/90 text-white"
+            >
               Забронировать стол
+            </Button>
+            
+            <Button 
+              variant="outline" 
+              size="lg"
+              className="border-georgia-gold text-georgia-gold hover:bg-georgia-gold/10"
+            >
+              Посмотреть меню <ArrowRight className="ml-2" size={16} />
             </Button>
           </div>
         </div>
       </div>
       
-      <div className="absolute bottom-0 left-0 right-0 h-20 bg-gradient-to-t from-background to-transparent"></div>
+      <div className="absolute bottom-10 left-0 right-0 flex justify-center animate-bounce">
+        <Button 
+          variant="ghost" 
+          size="icon"
+          className="rounded-full border border-georgia-gold/30 bg-black/30 text-georgia-gold"
+          onClick={() => document.getElementById('меню')?.scrollIntoView({ behavior: 'smooth' })}
+        >
+          <ArrowRight className="rotate-90" size={20} />
+        </Button>
+      </div>
     </section>
   );
 };

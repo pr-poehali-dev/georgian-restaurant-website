@@ -1,3 +1,4 @@
+
 import Header from "@/components/Header";
 import Hero from "@/components/Hero";
 import MenuSection from "@/components/MenuSection";
@@ -8,11 +9,9 @@ const Index = () => {
   return (
     <div className="min-h-screen">
       <Header />
-      <main>
-        <Hero />
-        <MenuSection />
-        <AboutSection />
-      </main>
+      <Hero />
+      <MenuSection />
+      <AboutSection />
       <Footer />
     </div>
   );
